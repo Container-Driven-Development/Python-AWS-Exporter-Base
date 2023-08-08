@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  python-aws-exporter-base:
+  - apiVersion: v2
+    appVersion: v3.0
+    created: "2023-08-08T22:20:16.022106+02:00"
+    description: Base image for Python scripts exporting AWS resources using boto
+      library to Prometheus
+    digest: 7d9578517fb2b3b0f771904c4e7f9d1fe53a6e0382be36c2d0f248c8a09f6e6f
+    name: python-aws-exporter-base
+    urls:
+    - python-aws-exporter-base-3.0.0.tgz
+    version: 3.0.0
+generated: "2023-08-08T22:20:16.021295+02:00"
