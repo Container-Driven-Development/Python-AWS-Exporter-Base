@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "python-aws-exporter-base.fullname" . }}-configmap
+data:
+
+{{ if .Values.pip_install }}
+  requirements.txt: |-
+    {{ .Values.pip_install | indent 4 }}
+{{ end }}
+
+  script.py: |
+{{ .Values.script_py | indent 4 }}

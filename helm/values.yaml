@@ -1,0 +1,39 @@
+replicaCount: 1
+
+aws:
+  access_key_id:
+  secret_access_key:
+  region:
+
+script_py: |
+  while True:
+    print("Hello World")
+
+image:
+  repository: ghcr.io/container-driven-development/python-aws-exporter-base
+  pullPolicy: IfNotPresent
+  # tag: v0.1
+
+pip_install:
+# pip_install: |
+#   antigravity==0.1
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceMonitor:
+  enabled: true
+  interval: 3600s
+  scrapeTimeout: 30s
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  limits:
+    memory: 160Mi
+  requests:
+    cpu: 50m
+    memory: 128Mi
+

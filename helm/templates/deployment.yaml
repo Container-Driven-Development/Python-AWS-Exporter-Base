@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "python-aws-exporter-base.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "python-aws-exporter-base.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "python-aws-exporter-base.fullname" . }}
+      annotations:
+      # aws.secret.yaml checksum
+        checksum/aws.secret.yaml: {{ include (print $.Template.BasePath "/aws.secret.yaml") . | sha256sum }}
+        checksum/configmap.yaml: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+
+    spec:
+      containers:
+        - name: python-script
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{ if .Values.pip_install }}
+          command: ["sh", "-c", "pip install -r /script/requirements.txt && python /script/script.py"]
+{{ else }}
+          args: ["/script/script.py"]
+{{ end }}
+          volumeMounts:
+            - name: python-script
+              mountPath: /script
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "python-aws-exporter-base.fullname" . }}-aws-credentials
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "python-aws-exporter-base.fullname" . }}-aws-credentials
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "python-aws-exporter-base.fullname" . }}-aws-credentials
+                  key: AWS_REGION
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+        - name: python-script
+          configMap:
+            name: {{ include "python-aws-exporter-base.fullname" . }}-configmap
