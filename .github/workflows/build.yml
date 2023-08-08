@@ -1,0 +1,47 @@
+# NOTES:
+# 1. Create PAT with `read:packages` and `write:packages` see https://docs.github.com/en/free-pro-team@latest/packages/guides/migrating-to-github-container-registry-for-docker-images#authenticating-with-the-container-registry
+# 2. Create CR_PAT variable under Settings / Secrets
+
+name: BUILD
+
+on:
+  push:
+    # Publish `v1.2.3` tags as releases.
+    tags:
+    - v*
+
+env:
+  FETCHER_IMAGE_VERSION: ""
+  BASE_IMAGE_VERSION: ""
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run build
+        run: |
+          IMAGE_NAME=ghcr.io/$(echo "${{ github.repository }}" | tr '[A-Z]' '[a-z]' )
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          docker build . \
+           --build-arg FETCHER_IMAGE_VERSION=${FETCHER_IMAGE_VERSION} \
+           --build-arg BASE_IMAGE_VERSION=${BASE_IMAGE_VERSION} \
+           --file Dockerfile --tag $IMAGE_NAME:$VERSION
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          IMAGE_NAME=ghcr.io/$(echo "${{ github.repository }}" | tr '[A-Z]' '[a-z]' )
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          echo IMAGE_NAME=$IMAGE_NAME
+          echo VERSION=$VERSION
+          docker push $IMAGE_NAME:$VERSION
+          # Push latest as well for caching purposes
+          docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:latest

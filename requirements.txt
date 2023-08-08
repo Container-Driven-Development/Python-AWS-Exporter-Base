@@ -1,0 +1,2 @@
+boto3==1.28.19
+prometheus_client==0.17.1
