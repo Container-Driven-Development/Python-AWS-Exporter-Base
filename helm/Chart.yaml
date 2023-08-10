@@ -2,4 +2,4 @@ apiVersion: v2
 name: python-aws-exporter-base
 description: Base image for Python scripts exporting AWS resources using boto library to Prometheus
 version: 4.0.0
-appVersion: v3.0
+appVersion: v4.0
