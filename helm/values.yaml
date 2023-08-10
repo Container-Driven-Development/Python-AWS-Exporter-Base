@@ -5,6 +5,9 @@ aws:
   secret_access_key:
   region:
 
+env:
+  S3_BUCKET_NAMES: "bucket1,bucket2"
+
 script_py: |
   while True:
     print("Hello World")
