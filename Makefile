@@ -8,8 +8,9 @@ chart_release:
 	git checkout gh-pages
 	git merge main
 	git commit -m "merged"
+	git push
 	helm package ./helm
-	helm repo index
+	helm repo index .
 	git add .
 	git commit -m "update chart"
 	git push origin gh-pages
