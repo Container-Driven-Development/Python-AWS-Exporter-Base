@@ -39,7 +39,7 @@ spec:
             {{- end }}
 
             - name: METRICS_SCRAPE_INTERVAL
-              value: {{ .Values.metrics_scrape_interval }}
+              value: "{{ .Values.serviceMonitor.interval }}"
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
