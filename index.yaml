@@ -2,8 +2,18 @@ apiVersion: v1
 entries:
   python-aws-exporter-base:
   - apiVersion: v2
+    appVersion: v6.0
+    created: "2023-08-22T06:23:23.5689+02:00"
+    description: Base image for Python scripts exporting AWS resources using boto
+      library to Prometheus
+    digest: 9dc596d4e0da21bc356e69016a98a74275c2d5b2f5e6ce300d090411d53c73a2
+    name: python-aws-exporter-base
+    urls:
+    - python-aws-exporter-base-6.0.0.tgz
+    version: 6.0.0
+  - apiVersion: v2
     appVersion: v5.0
-    created: "2023-08-10T14:01:59.557778+02:00"
+    created: "2023-08-22T06:23:23.568668+02:00"
     description: Base image for Python scripts exporting AWS resources using boto
       library to Prometheus
     digest: d11ed37fdf8c7ee6d93294cf7191796f527987a8017dfcbc0a1c29489cb20699
@@ -13,7 +23,7 @@ entries:
     version: 5.0.0
   - apiVersion: v2
     appVersion: v4.0
-    created: "2023-08-10T14:01:59.557462+02:00"
+    created: "2023-08-22T06:23:23.568347+02:00"
     description: Base image for Python scripts exporting AWS resources using boto
       library to Prometheus
     digest: f6facd135497916a9fd3948a33062c3e8249be3b03d7eb71cad5a687d232228c
@@ -23,7 +33,7 @@ entries:
     version: 4.0.0
   - apiVersion: v2
     appVersion: v3.0
-    created: "2023-08-10T14:01:59.55707+02:00"
+    created: "2023-08-22T06:23:23.568035+02:00"
     description: Base image for Python scripts exporting AWS resources using boto
       library to Prometheus
     digest: 7d9578517fb2b3b0f771904c4e7f9d1fe53a6e0382be36c2d0f248c8a09f6e6f
@@ -31,4 +41,4 @@ entries:
     urls:
     - python-aws-exporter-base-3.0.0.tgz
     version: 3.0.0
-generated: "2023-08-10T14:01:59.556357+02:00"
+generated: "2023-08-22T06:23:23.567356+02:00"
