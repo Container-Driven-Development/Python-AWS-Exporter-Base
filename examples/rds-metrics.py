@@ -101,4 +101,4 @@ def collect_metrics():
             freeable_memory_gauge.labels(DBInstanceIdentifier=db_instance_id).set(freeable_memory)
 while True:
     collect_metrics()
-    time.sleep(60) # Collect metrics every minute
+    time.sleep(parse_time_string(os.environ.get('METRICS_SCRAPE_INTERVAL')).seconds)

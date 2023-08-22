@@ -28,6 +28,7 @@ serviceMonitor:
   enabled: true
   interval: 3600s
   scrapeTimeout: 30s
+  path: /metrics
 
 service:
   type: ClusterIP
